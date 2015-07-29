@@ -70,7 +70,7 @@ public class MainFrame extends JFrame
 		exit.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-            	int action = JOptionPane.showConfirmDialog(MainFrame.this, "Reihaneh?" , "Confirm Exit" , JOptionPane.OK_CANCEL_OPTION);
+            	int action = JOptionPane.showConfirmDialog(MainFrame.this, "Reihaneh? " , "Confirm Exit" , JOptionPane.OK_CANCEL_OPTION);
                 if (action == JOptionPane.OK_OPTION){
             	System.exit(0);
                 }
