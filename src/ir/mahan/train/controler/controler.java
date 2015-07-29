@@ -4,12 +4,19 @@ import ir.mahan.train.model.dataBase;
 import ir.mahan.train.model.person;
 import ir.mahan.train.view.FormEvent;
 
-public class controler {
-
-//	public void addPerson(FormEvent form) {
-//		person person = convertFromEventPerson(ev);
-//		db.add(
-//	}
+public class controler 
+{
+	dataBase db;
+	
+	public controler()
+	{
+		dataBase db = new dataBase();
+	}
+	
+	public void addPerson(FormEvent form) 
+	{
+		db.addPerson(p);
+	}
 //	
 //	dataBase db;
 //	public person convertFromEventPerson (FormEvent ev) {
