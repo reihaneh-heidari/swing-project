@@ -26,6 +26,8 @@ public class FormEvent implements Serializable{
 	private FavoritSport favoritSport;
 	private Boolean   isEmployee;
 	private int 	 salary;
+	private int ID;
+	static int count;
 	
 	public void setSalary(int _salary) 
 	{
@@ -100,5 +102,15 @@ public class FormEvent implements Serializable{
 			resultString = resultString + "::" + salary; 
     	return  resultString;
 	}
+	
+	public FormEvent()
+	{
+		this.ID = count++;
+	}
+
+	public int getID() {
+		return ID;
+	}
+	
 
 }

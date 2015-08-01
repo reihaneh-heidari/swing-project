@@ -9,6 +9,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.KeyStroke;
 
 import java.awt.event.ActionEvent;
@@ -17,6 +18,8 @@ import java.awt.event.KeyEvent;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainFrame extends JFrame 
 {
@@ -37,6 +40,9 @@ public class MainFrame extends JFrame
 	public JFileChooser fileChooser = new JFileChooser();
 	private JTabbedPane tabbedPane;
 	private JSplitPane splitPane;
+	TablePanel tablePanel;
+	private List<FormEvent> dataSource;
+	
 
 	public MainFrame(String title) 
 	{
@@ -45,7 +51,11 @@ public class MainFrame extends JFrame
 		setMenu();
 		addPanels();
 		this.setJMenuBar(menuBar);
+		dataSource = new ArrayList<>();
+		tablePanel.setData(dataSource);
 	}
+	
+	
 	
 	private void setFrameView() 
 	{		
@@ -63,7 +73,7 @@ public class MainFrame extends JFrame
 		
 		
 		fileChooser.setAcceptAllFileFilterUsed(false);
-		fileChooser.addChoosableFileFilter(new personFileFilter());
+		fileChooser.addChoosableFileFilter(new PersonFileFilter());
 		
 		
 		exit = new JMenuItem("Exit");
@@ -136,31 +146,37 @@ public class MainFrame extends JFrame
 		
 		this.textPanel = new TextPanel();
 		Dimension dim = this.textPanel.getPreferredSize();
-		dim.width = 480;
+		dim.width = 100;
 		this.textPanel.setDimension(dim);
 		this.textPanel.setSize();
 		this.iStringListener = new IStringListener() 
 		{			
 			@Override
-			public void stringEmmited(String input) 
+			public void stringEmmited(FormEvent input) 
 			{			
-				textPanel.SetText(input);				
+				textPanel.SetText(input.toString());
+				dataSource.add(input);
+				tablePanel.refresh();
 			}
 		};								
 		
 		this.userPanel = new UserPanel();
 		this.userPanel.setIStringListener(this.iStringListener);
 		Dimension borderDim = this.userPanel.getPreferredSize();
-		borderDim.width = 300;
+		borderDim.width = 350;
 		this.userPanel.setDimensions(borderDim);
 		this.userPanel.setSize();
-		
+		this.tablePanel = new TablePanel();
 
-		
+		this.tablePanel.setDimension(dim);
+		this.tablePanel.setSize();
 		tabbedPane = new JTabbedPane();
 		tabbedPane.add("TextAria" , textPanel);
+		tabbedPane.add("PersonDB" , tablePanel);
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT , userPanel ,tabbedPane);
 		this.add(splitPane);
+	
+	
 		
 	}		
 }

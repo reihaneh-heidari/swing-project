@@ -33,6 +33,7 @@ public class UserPanel extends JPanel implements ActionListener
 	private Dimension dimention;
 	private Dimension fieldDimension;
 	private Dimension listDimension;
+	TablePanel tablePanel;
 	
 	public void setDimensions(Dimension _dim) 
 	{
@@ -173,8 +174,9 @@ public class UserPanel extends JPanel implements ActionListener
 			if ( userIsValid() == true )
 			{
 				setUserSpecifications();
-				this.iStringListener.stringEmmited(this.user.toString());
+				this.iStringListener.stringEmmited(this.user);
 			}
+			
 		}
 		
 		if (event.getSource().equals(isEmployee_Checkbox))
