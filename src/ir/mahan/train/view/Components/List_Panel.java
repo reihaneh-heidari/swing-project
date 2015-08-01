@@ -1,17 +1,21 @@
-package ir.mahan.train.view;
+package ir.mahan.train.view.Components;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.io.Serializable;
+
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 
-public class JList_Panel extends JComponent
+public class List_Panel extends JComponent implements Serializable
 {
+	private static final long serialVersionUID = -7739837059861305182L;
+	
 	private JPanel panel;
-	private JList<Object[]> list;
+	private JList<Object> list;
 	private Dimension componentDim;
 	
 	public void setComponentDimension(Dimension dim) 
@@ -23,12 +27,18 @@ public class JList_Panel extends JComponent
 		setComponentSize();
 	}
 	
+	private void setComponentSize()
+	{
+		panel.setSize(this.componentDim); 
+		list.setPreferredSize(this.componentDim);
+	}
+	
 	public Dimension getComponentDimension() 
 	{
 		return componentDim;
 	}
 	
-	public JList_Panel(String panelCaption, Object[] objectList )
+	public List_Panel( String panelCaption, Object[] objectList )
 	{	
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 		
@@ -37,20 +47,14 @@ public class JList_Panel extends JComponent
 		panel.setBorder(BorderFactory.createTitledBorder(panelCaption));
 		this.add(panel);
 						 
-		list = new JList(objectList);
+		list = new JList<>(objectList);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setSelectedIndex(0);
 		
 		panel.add(list);		
 		setComponentDimension(null);		
 	}
-		
-	private void setComponentSize()
-	{
-		panel.setSize(this.componentDim); 
-		list.setPreferredSize(this.componentDim);
-	}
-	
+
 	public Object GetSelectedItem()
 	{
 		return list.getSelectedValue();

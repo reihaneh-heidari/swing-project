@@ -1,7 +1,8 @@
-package ir.mahan.train.view;
+package ir.mahan.train.view.Components;
 
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -9,8 +10,9 @@ import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-public class Panel_of_CheckBoxs extends JComponent
+public class Panel_of_CheckBoxs extends JComponent implements Serializable
 {
+	private static final long serialVersionUID = -9220962382998617890L;
 	private JPanel panel;
 	private JCheckBox[] checkBoxs;
 	private Dimension componentDim;
@@ -24,12 +26,17 @@ public class Panel_of_CheckBoxs extends JComponent
 		setComponentSize();
 	}
 	
+	private void setComponentSize()
+	{
+		panel.setSize(this.componentDim); 				
+	}
+	
 	public Dimension getComponentDimension() 
 	{
 		return componentDim;
 	}
 	
-	public Panel_of_CheckBoxs(String panelCaption, String[] checkBoxCaptions)
+	public Panel_of_CheckBoxs(String panelCaption, Object[] checkBoxCaptions)
 	{	
 		this.setLayout(new GridBagLayout());
 		
@@ -41,17 +48,13 @@ public class Panel_of_CheckBoxs extends JComponent
 		checkBoxs = new JCheckBox[checkBoxCaptions.length];
 		for (int i = 0; i < checkBoxCaptions.length; i++) 
 		{
-			checkBoxs[i] = new JCheckBox(checkBoxCaptions[i]) ;
+			checkBoxs[i] = new JCheckBox(checkBoxCaptions[i].toString()) ;
 			panel.add(checkBoxs[i]);
 		}
 		
 		setComponentDimension(null);		
 	}
 		
-	private void setComponentSize()
-	{
-		panel.setSize(this.componentDim); 				
-	}
 	
 	public ArrayList<String> GetSelectedItems()
 	{

@@ -1,15 +1,17 @@
-package ir.mahan.train.model;
+package ir.mahan.train.view;
 
 import ir.mahan.train.model.EnumDefinitions.Age;
 import ir.mahan.train.model.EnumDefinitions.Category;
 import ir.mahan.train.model.EnumDefinitions.City;
 import ir.mahan.train.model.EnumDefinitions.FavoritSport;
 import ir.mahan.train.model.EnumDefinitions.Gender;
-import java.io.Serializable;
 
-public class Person implements Serializable{
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class User implements Serializable{
 	
-	private static final long serialVersionUID = 2442234401322632835L;
+	private static final long serialVersionUID = -1093239392376997810L;
 	
 	private String 	 name;
 	private String 	 family;	
@@ -20,7 +22,23 @@ public class Person implements Serializable{
 	private int 	 salary;
 	private City[]	 cities;
 	private Age 	 age;
+
+	//*** not in person class ***//
+	private int ID;
+	static int count;
 	
+	//*** not in person class ***//
+	public User()
+	{
+		this.ID = count++;
+	}
+
+	//*** not in person class ***//
+	public int getID() 
+	{
+		return ID;
+	}
+
 	public void setName(String _name) 
 	{
 		this.name = _name;
@@ -96,9 +114,35 @@ public class Person implements Serializable{
 		this.cities = _cities;
 	}
 	
+	public void setCities(ArrayList<String> _citieStrings) 
+	{
+		int j = 0;
+		for (int i = 0; i < _citieStrings.size(); i++) 
+		{
+			this.cities[j] = City.valueOf(_citieStrings.get(i));
+			j++;			 
+		}
+	}
+	
+	
 	public City[] getCities()
 	{
 		return cities;
+	}
+	
+	//*** not in person class ***//
+	public String getStringCities()
+	{
+		String _cities = "";
+		
+    	for (int i = 0; i < cities.length; i++) 
+    	{
+    		_cities = _cities + cities[i].toString() + ',';
+    	}
+    	
+    	if (_cities.lastIndexOf(',') > 0)
+    		_cities = _cities.substring(0, _cities.lastIndexOf(','));
+    	return _cities;
 	}
 	
 	public void setAge(Age _age) 
@@ -111,5 +155,16 @@ public class Person implements Serializable{
 		return age;
 	}
 
+	//*** not in person class ***//
+	@Override
+	public String toString() 
+	{
+		String resultString = "";
+		resultString = name + "::" + family + "::" + category.toString() + "::" + gender.toString() + "::" + getStringCities() + "::" + age.toString() + "::" + 
+				favoritSport.toString();
+		if (isEmployee) 
+			resultString = resultString + "::" + salary; 
+    	return  resultString;
+	}
 	
 }

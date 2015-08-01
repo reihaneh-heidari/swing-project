@@ -1,15 +1,18 @@
-package ir.mahan.train.view;
+package ir.mahan.train.view.Components;
 
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
+import java.io.Serializable;
+
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-public class Panel_of_RadioButtons extends JComponent
+public class Panel_of_RadioButtons extends JComponent implements Serializable
 {
+	private static final long serialVersionUID = 1791831098602195374L;
 	private JPanel panel;
 	private JRadioButton[] radioButtons;
 	private Dimension componentdim;
@@ -23,12 +26,17 @@ public class Panel_of_RadioButtons extends JComponent
 		setComponentSize();
 	}
 	
+	private void setComponentSize()
+	{
+		panel.setSize(this.componentdim); 				
+	}
+	
 	public Dimension getComponentDimension() 
 	{
 		return componentdim;
 	}
 	
-	public Panel_of_RadioButtons(String panelCaption, String[] raidioButtonCaptions)
+	public Panel_of_RadioButtons(String panelCaption, Object[] raidioButtonCaptions)
 	{	
 		this.setLayout(new GridBagLayout());
 		
@@ -41,7 +49,7 @@ public class Panel_of_RadioButtons extends JComponent
 		radioButtons = new JRadioButton[raidioButtonCaptions.length];
 		for (int i = 0; i < raidioButtonCaptions.length; i++) 
 		{
-			radioButtons[i] = new JRadioButton(raidioButtonCaptions[i]) ;
+			radioButtons[i] = new JRadioButton(raidioButtonCaptions[i].toString()) ;
 			buttonGroup.add(radioButtons[i]);
 			panel.add(radioButtons[i]);
 		}
@@ -49,12 +57,7 @@ public class Panel_of_RadioButtons extends JComponent
 		
 		setComponentDimension(null);		
 	}
-		
-	private void setComponentSize()
-	{
-		panel.setSize(this.componentdim); 				
-	}
-	
+			
 	public String GetSelectedItem()
 	{
 		String string = "";

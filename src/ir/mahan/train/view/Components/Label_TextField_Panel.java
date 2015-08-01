@@ -1,14 +1,17 @@
-package ir.mahan.train.view;
+package ir.mahan.train.view.Components;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.io.Serializable;
+
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class Label_TextField_Panel extends JComponent
+public class Label_TextField_Panel extends JComponent implements Serializable
 {
+	private static final long serialVersionUID = 7147270329121776869L;
 	private JPanel panel;
 	private JLabel label;
 	private JTextField textField;
@@ -21,6 +24,14 @@ public class Label_TextField_Panel extends JComponent
 		else
 			this.componentDim = dim;
 		setComponentSize();
+	}
+	
+	private void setComponentSize()
+	{
+		Dimension dim;
+		panel.setSize(this.componentDim); 
+		dim = new Dimension(this.componentDim.width - label.getPreferredSize().width , this.componentDim.height);
+		textField.setPreferredSize(dim);
 	}
 	
 	public Dimension getComponentDimension() 
@@ -46,14 +57,6 @@ public class Label_TextField_Panel extends JComponent
 		setComponentDimension(null);		
 	}
 		
-	private void setComponentSize()
-	{
-		Dimension dim;
-		panel.setSize(this.componentDim); 
-		dim = new Dimension(this.componentDim.width - label.getPreferredSize().width , this.componentDim.height);
-		textField.setPreferredSize(dim);
-	}
-	
 	public String GetEnteredText()
 	{
 		return textField.getText();
@@ -64,9 +67,5 @@ public class Label_TextField_Panel extends JComponent
 	{
 		textField.setEditable(arg0);
 	}
-
-	
-
-	
 	
 }

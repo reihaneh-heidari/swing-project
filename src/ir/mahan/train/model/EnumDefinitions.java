@@ -1,4 +1,4 @@
-package ir.mahan.train.view;
+package ir.mahan.train.model;
 
 public class EnumDefinitions 
 {	
@@ -21,26 +21,7 @@ public class EnumDefinitions
 			return this._name;
 		}
 	}
-	
-	public enum Age 
-	{
-	    FENCH ("18"),
-	    YOUNG ("20-30"),
-	    MIDDLE ("more");
-
-	    private String _name;
-		private Age(String name)
-		{
-			_name = name;
-		}
 		
-		@Override
-		public String toString()
-		{
-			return this._name;
-		}			    
-	}
-	
 	public enum Gender 
 	{
 		MALE("Male"),
@@ -58,26 +39,7 @@ public class EnumDefinitions
 			return this._name;
 		}
 	};
-	
-	public enum City 
-	{
-		TEHRAN("Tehran"),
-		KERMAN("Kerman");
 		
-		private String _name;
-		private City(String name)
-		{
-			_name = name;
-		}
-		
-		@Override
-		public String toString()
-		{
-			return this._name;
-		}
-				
-	};
-	
 	public enum FavoritSport
 	{
 		FOOTBALL("Football"),
@@ -95,6 +57,43 @@ public class EnumDefinitions
 		{
 			return this._name;
 		}
+	}
+
+	public enum City 
+	{
+		TEHRAN("Tehran"),
+		KERMAN("Kerman");
+		
+		private String _name;
+		private City(String name)
+		{
+			_name = name;
+		}
+		
+		@Override
+		public String toString()
+		{
+			return this._name;
+		}
+	};
+	
+	public enum Age 
+	{
+	    FENCH ("18"),
+	    YOUNG ("20-30"),
+	    MIDDLE ("more");
+
+	    private String _name;
+		private Age(String name)
+		{
+			_name = name;
+		}
+		
+		@Override
+		public String toString()
+		{
+			return this._name;
+		}					
 	}
 
 }
