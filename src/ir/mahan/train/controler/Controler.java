@@ -18,17 +18,7 @@ public class Controler
 	
 	public void addPerson(User user) 
 	{
-		Person person = new Person();
-		person.setName(user.getName());
-		person.setFamily(user.getFamily());
-		person.setAge(user.getAge());
-		person.setCategory(user.getCategory());
-		person.setCities(user.getCities());
-		person.setFavoritSport(user.getFavoritSport());
-		person.setGender(user.getGender());
-		person.setIsEmployee(user.getIsEmployee());
-		person.setSalary(user.getSalary());
-		psl.addPerson(person);
+		psl.addPerson(convertUserToPerson(user));
 	}
 	
 	public void saveToFile(File file) throws IOException
@@ -40,4 +30,35 @@ public class Controler
 	{
 		return psl.loadFromFile(file);
 	}
+	
+	public Person convertUserToPerson(User user)
+	{
+		Person person = new Person();
+		person.setName(user.getName());
+		person.setFamily(user.getFamily());
+		person.setAge(user.getAge());
+		person.setCategory(user.getCategory());
+		person.setCities(user.getCities());
+		person.setFavoritSport(user.getFavoritSport());
+		person.setGender(user.getGender());
+		person.setIsEmployee(user.getIsEmployee());
+		person.setSalary(user.getSalary());
+		return person;
+	}
+	
+	public User convertUserToPerson(Person person)
+	{
+		User user = new User();
+		user.setName(person.getName());
+		user.setFamily(person.getFamily());
+		user.setAge(person.getAge());
+		user.setCategory(person.getCategory());
+		user.setCities(person.getCities());
+		user.setFavoritSport(person.getFavoritSport());
+		user.setGender(person.getGender());
+		user.setIsEmployee(person.getIsEmployee());
+		user.setSalary(person.getSalary());
+		return user;
+	}
 }
+
