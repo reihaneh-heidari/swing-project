@@ -11,7 +11,8 @@ import ir.mahan.train.view.Components.Label_ComboBox_Panel;
 import ir.mahan.train.view.Components.Panel_of_CheckBoxs;
 import ir.mahan.train.view.Components.Panel_of_RadioButtons;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
@@ -59,11 +60,11 @@ public class UserPanel extends JPanel implements ActionListener, Serializable
 	
 	public UserPanel()
 	{
-		defineAllComponents();
-		addAllComponents();		
+		defineComponents();
+		setLayout();		
 	}
 	
-	private void defineAllComponents()
+	private void defineComponents()
 	{		
 		name_txtComponent = new  Label_TextField_Panel("Name:");
 		name_txtComponent.setComponentDimension(fieldDimension);
@@ -98,22 +99,60 @@ public class UserPanel extends JPanel implements ActionListener, Serializable
 		submit_Button.addActionListener(this);
 	}
 
-	private void addAllComponents()
+	public void setLayout()
 	{
-		setBorder(BorderFactory.createTitledBorder("User Informations"));
-		setLayout(new FlowLayout(FlowLayout.LEFT));
-		this.add(name_txtComponent);
-		this.add(family_txtComponent);
-		this.add(categori_cmbComponent);
-		this.add(gender_cmbComponent);
-		this.add(city_chkComponent);
-		this.add(age_rbComponent);
-		this.add(favoritSport_lstComponent);
-		this.add(isEmployee_Checkbox);
-		this.add(salary_txtComponent);
-		this.add(submit_Button);
-	}
-	
+		
+		this.setBorder(BorderFactory.createTitledBorder("User Informations"));
+ 		this.setLayout(new GridBagLayout());
+ 		
+		GridBagConstraints gc = new GridBagConstraints();
+		gc.weightx = 1;
+		gc.weighty = 0.1;
+		gc.gridx = 0;
+		gc.gridy = 0;
+		gc.fill = GridBagConstraints.NORTHWEST;
+		
+		gc.anchor = GridBagConstraints.LINE_START;
+		add(name_txtComponent , gc);
+
+		gc.gridy++;
+		gc.anchor = GridBagConstraints.LINE_START;
+		add(family_txtComponent , gc);
+		
+		gc.gridy++;
+		gc.anchor = GridBagConstraints.LINE_START;
+		add(gender_cmbComponent , gc);
+		
+		gc.gridy++;
+		gc.anchor = GridBagConstraints.LINE_START;
+		add(categori_cmbComponent , gc);
+		
+		gc.gridy++;
+		gc.anchor = GridBagConstraints.LINE_START;
+		add(age_rbComponent , gc);
+		 
+		gc.gridy++;
+		gc.anchor = GridBagConstraints.LINE_START;
+		add(city_chkComponent , gc);
+		
+		gc.gridy++;
+		gc.anchor = GridBagConstraints.LINE_START;
+		add(isEmployee_Checkbox , gc);
+		
+		gc.gridy++;
+		gc.anchor = GridBagConstraints.LINE_START;
+		add(salary_txtComponent , gc);
+		
+		gc.gridy++;
+		gc.anchor = GridBagConstraints.LINE_START;
+		add(favoritSport_lstComponent , gc);
+		
+		gc.gridy++;
+		gc.anchor = GridBagConstraints.LINE_START;
+		add(submit_Button , gc);
+		
+	};
+
 	private Boolean userIsValid() 
 	{
 		Boolean _userIsValid = true;
@@ -147,7 +186,7 @@ public class UserPanel extends JPanel implements ActionListener, Serializable
 		this.user.setCategory((Category)categori_cmbComponent.GetSelectedItem());
 		this.user.setGender((Gender)gender_cmbComponent.GetSelectedItem());
 		this.user.setCities(city_chkComponent.GetSelectedItems());
-		this.user.setAge(Age.valueOf(age_rbComponent.GetSelectedItem()));		
+		this.user.setAge(Age.getValue(age_rbComponent.GetSelectedItem()));		
 		this.user.setFavoritSport((FavoritSport)favoritSport_lstComponent.GetSelectedItem());
 		this.user.setIsEmployee(isEmployee_Checkbox.isSelected());
 		if (salary_txtComponent.GetEnteredText().isEmpty() == false)
@@ -168,8 +207,7 @@ public class UserPanel extends JPanel implements ActionListener, Serializable
 			{
 				setUserSpecifications();
 				this.iStringListener.stringEmmited(this.user);
-			}
-			
+			}			
 		}
 		
 		if (event.getSource().equals(isEmployee_Checkbox))
@@ -177,42 +215,8 @@ public class UserPanel extends JPanel implements ActionListener, Serializable
 			salary_txtComponent.setEnabled(isEmployee_Checkbox.isSelected());		 		
 		}
 	}
-		
+
 }
 
-// in addAllComponents: 
-// 		setLayout(new GridBagLayout());
-//		call layoutcomponent();
-//public void layoutcomponent()
-//{
-//	GridBagConstraints gc = new GridBagConstraints();
-//	gc.weightx=1;
-//	gc.weighty=0.1;
-//	
-//	gc.gridx=0;
-//	gc.gridy=0;
-//	gc.fill=GridBagConstraints.NONE;
-//	gc.anchor=GridBagConstraints.LINE_START;
-//	add(userName,gc);
-////	gc.gridx=1;
-////	gc.anchor=GridBagConstraints.LINE_START;
-////	gc.fill=GridBagConstraints.HORIZONTAL;
-////	add(txtUser,gc);
-//	gc.weightx=1;
-//	gc.weighty=0.1;
-//	gc.gridy=1;
-//	gc.gridx=0;
-//	gc.anchor=GridBagConstraints.LINE_END;
-////	add(lblFamily,gc);
-//	gc.gridx++;
-//	gc.anchor=GridBagConstraints.LINE_START;
-//	gc.fill=GridBagConstraints.HORIZONTAL;
-//	//add(txtFamily,gc);
-//	gc.weightx=1;
-//	gc.weighty=2;
-//	gc.gridy++;
-//	gc.gridx=1;
-//	gc.anchor=GridBagConstraints.FIRST_LINE_START;
-//	add(myButton,gc);
-//	
-//};		
+
+		

@@ -3,6 +3,7 @@ package ir.mahan.train.view.Components;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.io.Serializable;
 
 import javax.swing.BorderFactory;
@@ -43,7 +44,8 @@ public class TextArea_Panel extends JComponent implements Serializable
 		panel.setBorder(BorderFactory.createTitledBorder(panelCaption));
 		this.add(panel);
 				
-		textArea = new JTextArea();		
+		textArea = new JTextArea();
+		textArea.setFont(new Font(Font.SANS_SERIF, 12, 18));
 		panel.add(new JScrollPane(textArea), BorderLayout.CENTER);
 	}
 	

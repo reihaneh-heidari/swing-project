@@ -113,18 +113,17 @@ public class User implements Serializable{
 	{
 		this.cities = _cities;
 	}
-	
+
+	//*** not in person class ***//
 	public void setCities(ArrayList<String> _citieStrings) 
-	{
-		int j = 0;
+	{		
+		cities = new City[_citieStrings.size()];
 		for (int i = 0; i < _citieStrings.size(); i++) 
 		{
-			this.cities[j] = City.valueOf(_citieStrings.get(i));
-			j++;			 
+			this.cities[i] = City.valueOf(_citieStrings.get(i).toString());			 
 		}
 	}
-	
-	
+		
 	public City[] getCities()
 	{
 		return cities;

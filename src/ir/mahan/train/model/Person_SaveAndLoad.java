@@ -22,7 +22,12 @@ public class Person_SaveAndLoad {
 	{
 		people.add(p);		
 	}
-	
+
+	public List<Person> getPeople() 
+	{
+		return people;
+	}
+
 	public void saveToFile(File file)throws IOException 
 	{
 		Person_FileFilter pf = new Person_FileFilter();

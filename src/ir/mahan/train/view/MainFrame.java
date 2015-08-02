@@ -1,11 +1,13 @@
 package ir.mahan.train.view;
 
+import ir.mahan.train.controler.Controler;
 import ir.mahan.train.model.Person_FileFilter;
 import ir.mahan.train.utility.Utility;
 import ir.mahan.train.view.Components.Table_Panel;
 import ir.mahan.train.view.Components.TextArea_Panel;
 
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -13,10 +15,12 @@ import javax.swing.JMenuItem;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.Dimension;
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 
 public class MainFrame extends JFrame implements Serializable 
@@ -38,6 +42,10 @@ public class MainFrame extends JFrame implements Serializable
 	private TextArea_Panel textPanel;
 	private List<User> dataSource;
 	private Table_Panel tablePanel;
+	private Controler controler;
+	
+	int formWidth = 800;
+	int formHeight = 600;
 
 	public MainFrame(String title) 
 	{
@@ -46,21 +54,22 @@ public class MainFrame extends JFrame implements Serializable
 		setMenu();
 		addPanels();
 	}
-	
-	
+		
 	private void setFrameView() 
-	{		
-		this.setSize(800, 610);
+	{						
+		this.setSize(new Dimension(formWidth , formHeight));
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-	
 	
 	private void setMenu()
 	{
 		File = new JMenu("File");		
 		Utility.formComponent = MainFrame.this;
-		Utility.fileFilter = new Person_FileFilter();
+		JFileChooser fc = new JFileChooser();
+		fc.setAcceptAllFileFilterUsed(false);
+		fc.addChoosableFileFilter(new Person_FileFilter());
+		Utility.fileChooser = fc;
 		File.add(Utility.createExportDataMenuItem());
 		File.add(Utility.createImportDataMenuItem());
 		File.addSeparator();
@@ -87,20 +96,25 @@ public class MainFrame extends JFrame implements Serializable
 		this.setJMenuBar(menuBar);		
 	}
 	
-	
 	private void addPanels() 
 	{	
+		int leftPanelWidth = (formWidth / 2) - 90;
+		int rightPanelWidth = (formWidth - leftPanelWidth);
+		int insideRightPanelWidth = (rightPanelWidth - 55);
+				
 		this.textPanel = new TextArea_Panel("Defined Users");
-		Dimension dim = this.textPanel.getPreferredSize();
-		this.textPanel.setDimension(dim);
+		this.textPanel.setDimension(new Dimension(insideRightPanelWidth , formHeight));
 		this.textPanel.setSize();
 		
+		dataSource = new LinkedList<User>();
 		UserTableModel userTableModel;
 		userTableModel = new UserTableModel();
 		userTableModel.setDataSource(dataSource);		
 		this.tablePanel = new Table_Panel("Users", userTableModel);
-		this.tablePanel.setDimension(dim);
+		this.tablePanel.setDimension(new Dimension(insideRightPanelWidth , formHeight));
 		this.tablePanel.setSize();
+		
+		controler = new Controler();
 		
 		this.iStringListener = new IUserListener() 
 		{			
@@ -110,21 +124,22 @@ public class MainFrame extends JFrame implements Serializable
 				textPanel.addText(input.toString());
 				dataSource.add(input);
 				tablePanel.refresh();
+				controler.addPerson(input);
 			}
 		};								
 		
 		this.userPanel = new UserPanel();
 		this.userPanel.setIStringListener(this.iStringListener);
-		Dimension borderDim = this.userPanel.getPreferredSize();
-		borderDim.width = 350;
-		this.userPanel.setDimensions(borderDim);
+		this.userPanel.setDimensions(new Dimension(leftPanelWidth, formHeight));
 		this.userPanel.setSize();
 		
 		tabbedPane = new JTabbedPane();
 		tabbedPane.add("User Text", textPanel);
 		tabbedPane.add("User Table", tablePanel);
+		tabbedPane.setSize(new Dimension(rightPanelWidth , formHeight));
 		
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT , userPanel ,tabbedPane);
+		splitPane.setDividerLocation(leftPanelWidth);
 		this.add(splitPane);
 	}		
 }

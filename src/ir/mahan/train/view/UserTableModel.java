@@ -34,29 +34,29 @@ public class UserTableModel extends AbstractTableModel implements Serializable
 	public Object getValueAt(int rowIndex, int columnIndex) 
 	{
 		User user = users.get(rowIndex);
-		Object userCell = new Object();
 		switch (columnIndex) 
 		{
 			case 0:
-				userCell = user.getID();
+				return user.getID();
 			case 1:
-				userCell = user.getName();
+				return user.getName();
 			case 2:
-				userCell = user.getFamily();
+				return user.getFamily();
 			case 3:
-				userCell = user.getCategory();
+				return user.getCategory();
 			case 4:
-				userCell = user.getGender();
+				return user.getGender();
 			case 5:
-				userCell = user.getFavoritSport();
+				return user.getFavoritSport();
 			case 6:
-				userCell = user.getStringCities();
+				return user.getStringCities();
 			case 7:
-				userCell = user.getAge();
+				return user.getAge();
 			case 8:
-				userCell = user.getSalary();
+				return user.getSalary();
+			default:
+				return null;
 		}
-		return userCell;		
 	}
 	
 	@Override

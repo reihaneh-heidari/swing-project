@@ -52,6 +52,6 @@ public class Table_Panel extends JComponent implements Serializable
 	{
 		AbstractTableModel tm;
 		tm = (AbstractTableModel)table.getModel();
-		tm.fireTableDataChanged();		
+		tm.fireTableDataChanged();
 	}
 }

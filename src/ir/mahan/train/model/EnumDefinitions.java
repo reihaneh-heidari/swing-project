@@ -61,20 +61,8 @@ public class EnumDefinitions
 
 	public enum City 
 	{
-		TEHRAN("Tehran"),
-		KERMAN("Kerman");
-		
-		private String _name;
-		private City(String name)
-		{
-			_name = name;
-		}
-		
-		@Override
-		public String toString()
-		{
-			return this._name;
-		}
+		Tehran,
+		Kerman;		
 	};
 	
 	public enum Age 
@@ -93,7 +81,22 @@ public class EnumDefinitions
 		public String toString()
 		{
 			return this._name;
-		}					
+		}
+		
+		public static Age getValue(String name)
+		{
+			switch (name) 
+			{
+				case "18":
+					return Age.valueOf("FENCH");
+				case "20-30":
+					return Age.valueOf("YOUNG");
+				case "more":
+					return Age.valueOf("MIDDLE");
+				default:
+					return null;
+			}
+		}
 	}
 
 }
