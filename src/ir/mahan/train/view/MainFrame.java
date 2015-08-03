@@ -1,12 +1,10 @@
 package ir.mahan.train.view;
 
 import ir.mahan.train.controler.Controler;
-import ir.mahan.train.model.Person_FileFilter;
 import ir.mahan.train.utility.Utility;
-import ir.mahan.train.view.Components.Table_Panel;
 import ir.mahan.train.view.Components.TextArea_Panel;
 
-import javax.swing.JCheckBoxMenuItem;
+//import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -17,11 +15,11 @@ import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.Dimension;
+import java.io.IOException;
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
 
 public class MainFrame extends JFrame implements Serializable 
 {
@@ -29,19 +27,18 @@ public class MainFrame extends JFrame implements Serializable
 	
 	private JMenuBar menuBar;
 	private JMenu File;
-	private JMenu windowBar;
-	private JMenu showMenu;
-	private JMenuItem prefsItem;
-	private JMenuItem showFormItem;
-	private JCheckBoxMenuItem showFormCheckBoxItem;
+//	private JMenu windowBar;
+//	private JMenu showMenu;
+//	private JMenuItem prefsItem;
+//	private JMenuItem showFormItem;
+//	private JCheckBoxMenuItem showFormCheckBoxItem;	
 	
 	private JSplitPane splitPane;
 	private IUserListener iStringListener;
 	private UserPanel userPanel;
 	private JTabbedPane tabbedPane;
 	private TextArea_Panel textPanel;
-	private List<User> dataSource;
-	private Table_Panel tablePanel;
+	private UserTablePanel tablePanel;
 	private Controler controler;
 	
 	int formWidth = 800;
@@ -50,6 +47,7 @@ public class MainFrame extends JFrame implements Serializable
 	public MainFrame(String title) 
 	{
 		super(title);
+		controler = new Controler();
 		setFrameView();
 		setMenu();
 		addPanels();
@@ -62,37 +60,89 @@ public class MainFrame extends JFrame implements Serializable
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
+	public JMenuItem createExportDataMenuItem()
+	{	
+		JMenuItem exportDataMenuItem;
+		exportDataMenuItem = new JMenuItem("Export Data");
+		exportDataMenuItem.addActionListener(new ActionListener()
+		{
+	        @Override
+	        public void actionPerformed(ActionEvent e) 
+	        {	
+	        	JFileChooser fileChooser = new JFileChooser();
+	    		fileChooser.setAcceptAllFileFilterUsed(true);
+	    		if (fileChooser.showSaveDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION)
+	            {
+	    			try 
+	    			{
+						controler.saveToFile(fileChooser.getSelectedFile());
+					} catch (IOException e1) 
+					{
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+	            }
+	        }
+	    });
+		exportDataMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S , ActionEvent.CTRL_MASK));		
+		return exportDataMenuItem;
+	}
+	
+	public JMenuItem createImportDataMenuItem()
+	{	
+		JMenuItem ImportDataMenuItem;
+		ImportDataMenuItem = new JMenuItem("Import Data");
+		ImportDataMenuItem.addActionListener(new ActionListener()
+		{
+	        @Override
+	        public void actionPerformed(ActionEvent e) 
+	        {	       
+	        	JFileChooser fileChooser = new JFileChooser();
+	    		fileChooser.setAcceptAllFileFilterUsed(true);	    		
+	            if (fileChooser.showOpenDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION)
+	            {
+	            	try 
+	    			{
+						controler.loadFromFile(fileChooser.getSelectedFile());
+					} catch (Exception e1) 
+					{
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+	            }
+	        }
+	    });
+		ImportDataMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I , ActionEvent.CTRL_MASK));
+		return ImportDataMenuItem;
+	}
+	
 	private void setMenu()
 	{
 		File = new JMenu("File");		
 		Utility.formComponent = MainFrame.this;
-		JFileChooser fc = new JFileChooser();
-		fc.setAcceptAllFileFilterUsed(false);
-		fc.addChoosableFileFilter(new Person_FileFilter());
-		Utility.fileChooser = fc;
-		File.add(Utility.createExportDataMenuItem());
-		File.add(Utility.createImportDataMenuItem());
+		File.add(createExportDataMenuItem());
+		File.add(createImportDataMenuItem());
 		File.addSeparator();
 		File.add(Utility.createExitMenuItem());
 		File.setMnemonic(KeyEvent.VK_F);
 
-		showMenu = new JMenu("SHOW");
-		showFormItem = new JMenuItem("Person Form");
-		showMenu.add(showFormItem);
-		showFormCheckBoxItem = new JCheckBoxMenuItem("Show the form");
-		showFormCheckBoxItem.setSelected(true);
-		showMenu.add(showFormCheckBoxItem);
-		
-		prefsItem = new JMenuItem("Preferences");
-		prefsItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P , ActionEvent.CTRL_MASK));
-		
-		windowBar = new JMenu("windowBar");
-		windowBar.add(showMenu);
-		windowBar.add(prefsItem);
+//		showMenu = new JMenu("SHOW");
+//		showFormItem = new JMenuItem("Person Form");
+//		showMenu.add(showFormItem);
+//		showFormCheckBoxItem = new JCheckBoxMenuItem("Show the form");
+//		showFormCheckBoxItem.setSelected(true);
+//		showMenu.add(showFormCheckBoxItem);
+//		
+//		prefsItem = new JMenuItem("Preferences");
+//		prefsItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P , ActionEvent.CTRL_MASK));
+//		
+//		windowBar = new JMenu("windowBar");
+//		windowBar.add(showMenu);
+//		windowBar.add(prefsItem);
 		
 		menuBar = new JMenuBar();
 		menuBar.add(File);
-		menuBar.add(windowBar);				
+//		menuBar.add(windowBar);				
 		this.setJMenuBar(menuBar);		
 	}
 	
@@ -101,20 +151,14 @@ public class MainFrame extends JFrame implements Serializable
 		int leftPanelWidth = (formWidth / 2) - 90;
 		int rightPanelWidth = (formWidth - leftPanelWidth);
 		int insideRightPanelWidth = (rightPanelWidth - 55);
-				
+						
 		this.textPanel = new TextArea_Panel("Defined Users");
 		this.textPanel.setDimension(new Dimension(insideRightPanelWidth , formHeight));
 		this.textPanel.setSize();
 		
-		dataSource = new LinkedList<User>();
-		UserTableModel userTableModel;
-		userTableModel = new UserTableModel();
-		userTableModel.setDataSource(dataSource);		
-		this.tablePanel = new Table_Panel("Users", userTableModel);
+		this.tablePanel = new UserTablePanel();
 		this.tablePanel.setDimension(new Dimension(insideRightPanelWidth , formHeight));
-		this.tablePanel.setSize();
-		
-		controler = new Controler();
+		this.tablePanel.setSize();		
 		
 		this.iStringListener = new IUserListener() 
 		{			
@@ -122,9 +166,9 @@ public class MainFrame extends JFrame implements Serializable
 			public void stringEmmited(User input) 
 			{			
 				textPanel.addText(input.toString());
-				dataSource.add(input);
-				tablePanel.refresh();
-				controler.addPerson(input);
+				controler.addUser(input);	
+				tablePanel.setDataSource(controler.getUsers());		
+				tablePanel.refresh();				
 			}
 		};								
 		

@@ -90,7 +90,7 @@ public class UserPanel extends JPanel implements ActionListener, Serializable
 		isEmployee_Checkbox = new JCheckBox("Is Employee");
 		isEmployee_Checkbox.addActionListener(this);
 		
-		salary_txtComponent = new Label_TextField_Panel("salary:");
+		salary_txtComponent = new Label_TextField_Panel("Salary:");
 		salary_txtComponent.setComponentDimension(fieldDimension);
 		salary_txtComponent.setEnabled(false);
 		

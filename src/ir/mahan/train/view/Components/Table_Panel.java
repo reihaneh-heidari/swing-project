@@ -47,6 +47,11 @@ public class Table_Panel extends JComponent implements Serializable
 		table = new JTable(tableModel);
 		panel.add(new JScrollPane(table), BorderLayout.CENTER);				
 	}
+		
+	public AbstractTableModel getDataModel()
+	{
+		return (AbstractTableModel)table.getModel();
+	}
 	
 	public void refresh()
 	{

@@ -40,20 +40,20 @@ public class Person_SaveAndLoad {
 		}
 	}
 
-	public Person[] loadFromFile(File file)throws IOException, ClassNotFoundException 
+	public void loadFromFile(File file) throws IOException, ClassNotFoundException 
 	{	
+		people.clear();
 		Person_FileFilter pf = new Person_FileFilter();
 		if (pf.accept(file))
 		{	
 			FileInputStream fis = new FileInputStream(file);
 			ObjectInputStream ois = new ObjectInputStream(fis);
-			Person[] persons = (Person[]) ois.readObject();
-			ois.close();
-			return persons;
-		}
-		else
-		{
-			return null;
-		}		
+			while (ois.readObject() != null) 
+	        {
+	        	addPerson((Person) ois.readObject());
+	        }
+			ois.close();			
+		}				
 	}
 }
+ 

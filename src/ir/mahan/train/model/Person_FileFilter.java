@@ -12,7 +12,7 @@ public class Person_FileFilter extends FileFilter
 	{
 		if (file.isDirectory())
 		{
-			return true;
+			return false;
 		}
 
 		String name = file.getName();
@@ -20,12 +20,12 @@ public class Person_FileFilter extends FileFilter
 		
 		if (extension == null)
 		{
-			return true;
+			return false;
 		}
 		
 		if (extension.equalsIgnoreCase("Per"))
 		{
-			return false;
+			return true;
 		}
 		
 		return false;

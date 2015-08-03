@@ -43,7 +43,7 @@ public class EnumDefinitions
 	public enum FavoritSport
 	{
 		FOOTBALL("Football"),
-		VALIBALL("Valiball"),
+		VOLLEYBALL("Volleyball"),
 		OTHER("Other");
 		
 		private String _name;
