@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -35,7 +36,8 @@ public class Person_SaveAndLoad {
 		{
 			FileOutputStream fos = new FileOutputStream(file);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);	
-			oos.writeObject(people);
+			Person[] x = people.toArray(new Person[people.size()]);
+			oos.writeObject(x);
 			oos.close();
 			fos.close();
 		}
@@ -43,16 +45,15 @@ public class Person_SaveAndLoad {
 
 	public void loadFromFile(File file) throws IOException, ClassNotFoundException 
 	{	
-		people.clear();
+		Person[] persons ;
+		people.clear();		
 		Person_FileFilter pff = new Person_FileFilter();
 		if (pff.accept(file))
 		{	
 			FileInputStream fis = new FileInputStream(file);
 			ObjectInputStream ois = new ObjectInputStream(fis);
-			while (ois.readObject() != null)
-	        {
-	        	addPerson((Person) ois.readObject());
-	        }
+			persons = (Person[]) ois.readObject();
+			people.addAll(Arrays.asList(persons));
 			ois.close();			
 			fis.close();
 		}			
