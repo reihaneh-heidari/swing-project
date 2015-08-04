@@ -104,6 +104,8 @@ public class MainFrame extends JFrame implements Serializable
 	            	try 
 	    			{
 						controler.loadFromFile(fileChooser.getSelectedFile());
+						tablePanel.setDataSource(controler.getUsers());		
+						tablePanel.refresh();				
 					} catch (Exception e1) 
 					{
 						// TODO Auto-generated catch block

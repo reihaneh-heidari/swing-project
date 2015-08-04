@@ -37,23 +37,25 @@ public class Person_SaveAndLoad {
 			ObjectOutputStream oos = new ObjectOutputStream(fos);	
 			oos.writeObject(people);
 			oos.close();
+			fos.close();
 		}
 	}
 
 	public void loadFromFile(File file) throws IOException, ClassNotFoundException 
 	{	
 		people.clear();
-		Person_FileFilter pf = new Person_FileFilter();
-		if (pf.accept(file))
+		Person_FileFilter pff = new Person_FileFilter();
+		if (pff.accept(file))
 		{	
 			FileInputStream fis = new FileInputStream(file);
 			ObjectInputStream ois = new ObjectInputStream(fis);
-			while (ois.readObject() != null) 
+			while (ois.readObject() != null)
 	        {
 	        	addPerson((Person) ois.readObject());
 	        }
 			ois.close();			
-		}				
+			fis.close();
+		}			
 	}
 }
  
